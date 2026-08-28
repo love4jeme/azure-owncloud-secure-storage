@@ -1,8 +1,8 @@
 # Secure Private Cloud Storage on Azure — OwnCloud Deployment
 
-A 2-tier secure architecture on Microsoft Azure, built manually through the Azure Console to replace an insecure Dropbox-based file-sharing workflow with a self-hosted, access-controlled alternative — completed as part of Great Learning's PGP in Cloud Computing program.
+A 2-tier secure architecture on Microsoft Azure, built manually through the Azure Console to replace an insecure Dropbox-based file-sharing workflow with a self-hosted, access-controlled alternative — deployed as part of Great Learning's PGP in Cloud Computing program.
 
-> **Where this fits in my learning path:** this was one of the first hands-on cloud projects I built — entirely through the Azure Console, with no Terraform or any Infrastructure-as-Code involved. I did this deliberately before picking up IaC tools: I wanted to actually click through and understand what a virtual network, a subnet, a NAT gateway, and a security group *are* and *do* before automating the creation of any of them. That foundation is what made later Infrastructure-as-Code projects (see [TemsFidelity Bank](https://github.com/love4jeme/temsfidelitybank)) click much faster — when Terraform creates a `kubernetes.io/cluster` subnet tag or a security group ingress rule, I already understood exactly what that resource does and why it's configured that way, because I'd built the equivalent by hand first.
+> This was a hands-on console-driven lab (no Terraform/IaC) — the goal was to build fluency directly with Azure networking and VM primitives, as a complement to my Infrastructure-as-Code projects.
 
 ---
 
@@ -85,12 +85,6 @@ The scenario: a company's employees were using Dropbox to share files internally
 - **Why a NAT Gateway instead of just leaving the private subnet fully isolated?** The database server still needs outbound access — for OS and package updates — without accepting any inbound connections from the internet. A NAT Gateway provides exactly that asymmetry.
 - **Why two separate NSGs instead of one shared one?** Each tier has a genuinely different attack surface. The app server needs HTTP open to serve OwnCloud to users; the database server never should. Splitting them keeps each security boundary as narrow as what that specific tier actually requires.
 - **Why manual deployment instead of Terraform?** This was intentionally a hands-on lab to build direct fluency with Azure's console and networking primitives — a useful complement to Infrastructure-as-Code work, since understanding what Terraform is actually doing under the hood makes debugging IaC failures much easier.
-
----
-
-## From Console to Code
-
-Everything in this project — the VNet, subnets, NAT Gateway, NSGs, VM provisioning — was created by hand, one Azure Console screen at a time. That hands-on repetition is what later made Infrastructure-as-Code genuinely click: when I started writing Terraform for [TemsFidelity Bank](https://github.com/love4jeme/temsfidelitybank) (a similarly-shaped VPC/subnet/security-group architecture, on AWS), I wasn't learning what a NAT Gateway or a security group *was* for the first time — I was learning how to *express* something I already understood, in code instead of clicks. That's also why I could catch and fix real Terraform/reality mismatches in that later project (like a security group referencing the wrong database port) — I knew what the correct running configuration was supposed to look like, independent of what the code said.
 
 ---
 
