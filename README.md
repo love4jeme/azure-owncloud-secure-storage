@@ -79,3 +79,15 @@ The scenario: a company's employees were using Dropbox to share files internally
 
 ---
 
+## Key Design Decisions (interview talking points)
+
+- **Why no public IP on the database server?** The database only needs to be reached by the application server, which lives in the same virtual network — giving it a public IP would be an unnecessary and unjustifiable attack surface for a resource that never needs direct internet-facing access.
+- **Why a NAT Gateway instead of just leaving the private subnet fully isolated?** The database server still needs outbound access — for OS and package updates — without accepting any inbound connections from the internet. A NAT Gateway provides exactly that asymmetry.
+- **Why two separate NSGs instead of one shared one?** Each tier has a genuinely different attack surface. The app server needs HTTP open to serve OwnCloud to users; the database server never should. Splitting them keeps each security boundary as narrow as what that specific tier actually requires.
+- **Why manual deployment instead of Terraform?** This was intentionally a hands-on lab to build direct fluency with Azure's console and networking primitives — a useful complement to Infrastructure-as-Code work, since understanding what Terraform is actually doing under the hood makes debugging IaC failures much easier.
+
+---
+
+## Program
+
+Completed as part of the **Post Graduate Program in Cloud Computing**, Great Learning (in partnership with Texas McCombs).
