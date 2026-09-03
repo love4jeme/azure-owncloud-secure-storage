@@ -1,14 +1,20 @@
 # Secure Private Cloud Storage on Azure — OwnCloud Deployment
 
-A 2-tier secure architecture on Microsoft Azure, built manually through the Azure Console to replace an insecure Dropbox-based file-sharing workflow with a self-hosted, access-controlled alternative — deployed as part of Great Learning's PGP in Cloud Computing program.
+A 2-tier secure architecture on Microsoft Azure, built manually through the Azure Console to replace an insecure Dropbox-based file-sharing workflow with a self-hosted, access-controlled alternative — completed as part of Great Learning's PGP in Cloud Computing program.
 
-> This was a hands-on console-driven lab (no Terraform/IaC) — the goal was to build fluency directly with Azure networking and VM primitives, as a complement to my Infrastructure-as-Code projects.
+> **Where this fits in my learning path:** this was one of the first hands-on cloud projects I built — entirely through the Azure Console, with no Terraform or any Infrastructure-as-Code involved. I did this deliberately before picking up IaC tools: I wanted to actually click through and understand what a virtual network, a subnet, a NAT gateway, and a security group *are* and *do* before automating the creation of any of them. That foundation is what made later Infrastructure-as-Code projects (see [TemsFidelity Bank](https://github.com/love4jeme/temsfidelitybank)) click much faster — when Terraform creates a `kubernetes.io/cluster` subnet tag or a security group ingress rule, I already understood exactly what that resource does and why it's configured that way, because I'd built the equivalent by hand first.
 
 ---
 
 ## The Problem
 
 The scenario: a company's employees were using Dropbox to share files internally and externally. According to the brief, 40–75% of employees at similar businesses use unsanctioned file-sharing tools like this, and roughly half of Dropbox users do so despite knowing it violates policy. The average cost of a resulting data breach: **$5.5 million**. The task was to design and deploy a private, access-controlled alternative that keeps sensitive company and customer data inside infrastructure the company actually controls.
+
+---
+
+## Architecture Diagram
+
+![Architecture Diagram](./architecture-diagram.png)
 
 ---
 
@@ -79,6 +85,9 @@ The scenario: a company's employees were using Dropbox to share files internally
 
 ---
 
+## From Console to Code
+
+Everything in this project — the VNet, subnets, NAT Gateway, NSGs, VM provisioning — was created by hand, one Azure Console screen at a time. That hands-on repetition is what later made Infrastructure-as-Code genuinely click: when I started writing Terraform for [TemsFidelity Bank](https://github.com/love4jeme/temsfidelitybank) (a similarly-shaped VPC/subnet/security-group architecture, on AWS), I wasn't learning what a NAT Gateway or a security group *was* for the first time — I was learning how to *express* something I already understood, in code instead of clicks. That's also why I could catch and fix real Terraform/reality mismatches in that later project (like a security group referencing the wrong database port) — I knew what the correct running configuration was supposed to look like, independent of what the code said.
 
 ---
 
